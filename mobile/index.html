@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080d18">
+<title>Gold AI - XAUUSD</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;padding:20px;background:#080d18;color:#e8edf7;font-family:Arial,sans-serif}
+.app{max-width:520px;margin:auto}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+h1{color:#f5c76b;font-size:24px}
+.status{color:#42d99a;font-size:12px}
+.card{background:#111a2b;border:1px solid #26334a;border-radius:16px;padding:18px;margin-bottom:15px}
+.muted{color:#91a0b8;font-size:13px}
+.price{font-size:35px;font-weight:bold;margin:12px 0}
+.tabs{display:flex;gap:8px;margin:15px 0}
+button{border:0;border-radius:10px;padding:12px;background:#26334a;color:white;font-weight:bold;cursor:pointer}
+button.active{background:#e8b957;color:#111}
+.tabs button{flex:1}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.metric{background:#0b1322;padding:13px;border-radius:10px}
+.metric strong{display:block;font-size:18px;margin-top:7px}
+input{width:100%;padding:13px;border-radius:9px;border:1px solid #34435b;background:#080d18;color:white;margin:8px 0 15px}
+.action{width:100%;background:#e8b957;color:#111}
+.note{font-size:12px;line-height:1.6;color:#91a0b8}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+<h1>GOLD AI</h1>
+<span class="status">● MOBILE BETA</span>
+</header>
+
+<div class="card">
+<div class="muted">XAUUSD · GOLD</div>
+<div class="price">--.--</div>
+<div class="muted">Market data not connected yet</div>
+</div>
+
+<div class="tabs">
+<button class="active" onclick="setTF('M1',this)">M1</button>
+<button onclick="setTF('M5',this)">M5</button>
+<button onclick="setTF('M15',this)">M15</button>
+</div>
+
+<div class="card">
+<div class="muted">ANALYSIS TIMEFRAME</div>
+<h2 id="tf">M1</h2>
+<div class="grid">
+<div class="metric"><span class="muted">RSI</span><strong>--</strong></div>
+<div class="metric"><span class="muted">EMA</span><strong>--</strong></div>
+<div class="metric"><span class="muted">Trend</span><strong>Pending</strong></div>
+<div class="metric"><span class="muted">Signal</span><strong>Waiting</strong></div>
+</div>
+</div>
+<div class="card">
+<h3>Risk Calculator</h3>
+<label class="muted">Account balance ($)</label>
+<input id="balance" type="number" value="100000">
+<label class="muted">Risk percentage (%)</label>
+<input id="risk" type="number" value="0.10" step="0.01">
+<label class="muted">Stop loss distance ($)</label>
+<input id="sl" type="number" value="2" step="0.1">
+<button class="action" onclick="calculate()">CALCULATE RISK</button>
+<div class="grid" style="margin-top:15px">
+<div class="metric"><span class="muted">Risk amount</span><strong id="amount">$100</strong></div>
+<div class="metric"><span class="muted">Indicative lot*</span><strong id="lot">--</strong></div>
+</div>
+<p class="note">*Lot estimate assumes a 100 oz contract size and a $1 price movement per ounce. Confirm your broker's contract specification before trading.</p>
+</div>
+
+<div class="card">
+<h3>Trading checklist</h3>
+<p class="note">Before entering a trade:</p>
+<p>□ Check M15 trend</p>
+<p>□ Confirm M5 structure</p>
+<p>□ Find M1 entry confirmation</p>
+<p>□ Check stop loss and risk</p>
+<p>□ Respect competition drawdown limits</p>
+</div>
+
+<div class="card">
+<h3>AI Analysis</h3>
+<p class="note">Analysis engine and live market data are not connected yet. No live signals are being generated.</p>
+</div>
+</div>
+
+<script>
+function setTF(tf,btn){
+ document.getElementById('tf').textContent=tf;
+ document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+ btn.classList.add('active');
+}
+function calculate(){
+ const balance=Number(document.getElementById('balance').value);
+ const risk=Number(document.getElementById('risk').value);
+ const sl=Number(document.getElementById('sl').value);
+ if(balance<=0||risk<=0||sl<=0){
+  alert('Enter valid positive numbers');
+  return;
+ }
+ const amount=balance*risk/100;
+ const lot=amount/(sl*100);
+ document.getElementById('amount').textContent='$'+amount.toFixed(2);
+ document.getElementById('lot').textContent=lot.toFixed(2);
+}
+</script>
+</body>
+</html>
